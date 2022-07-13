@@ -1,16 +1,16 @@
 import curses
 from curses import wrapper
-from states.start import Start
-from states.selectGameMode import SelectGameMode
-from states.simpleTypr import SimpleTypr
-from states.selectSTMode import SelectSTMode
-from typr import Typr
+from typr.states import Start
+from typr.states import SelectGameMode
+from typr.states import SimpleTypr
+from typr.states import SelectSTMode
+from typr.core import Typr
 
 states = {
     "Start": Start(),
     "SelectGameMode": SelectGameMode(),
     "SimpleTypr": SimpleTypr(),
-    "SelectSTMode": SelectSTMode,
+    "SelectSTMode": SelectSTMode(),
 }
 
 

@@ -4,6 +4,7 @@ class Start(BaseState):
     def __init__(self):
         super().__init__()
         self.next_state = "SelectGameMode"
+        self.persist = None
 
     def update(self):
         pass

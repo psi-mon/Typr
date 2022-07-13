@@ -1,14 +1,16 @@
-
 from .base import BaseState
 
-class SelectSTMode(BaseState):
+class SelectGameMode(BaseState):
     def __init__(self):
         super().__init__()
-        self.next_state = "SimpleTypr"
+        self.next_state = "SelectSTMode"
+        self.persist = None
 
     def update(self):
         pass
 
+    def startup(self, persistent):
+        pass
 
     def get_event(self, event):
         if (
@@ -18,12 +20,13 @@ class SelectSTMode(BaseState):
         elif event == "1":
             self.done = True
         elif event == "2":
+            self.next_state = "VimCommands"
             self.done = True
 
     def draw(self, screen):
         screen.clear()
-        screen.addstr("Select your mode")
-        screen.addstr("1. Local storage")
-        screen.addstr("2. Something else")
+        screen.addstr("Please Select one Game Mode")
+        screen.addstr(1, 3, "1. Simple Type Mode")
+        screen.addstr(2, 3, "2. Vim Commands")
+        screen.addstr(3, 0, "Or Press q to quit")
         screen.refresh()
-

@@ -1,7 +1,7 @@
-
+from ..core import typeThingProvider
 from .base import BaseState
+from ..core import gameProgress
 import curses
-
 
 class SimpleTypr(BaseState):
     def __init__(self):
@@ -10,6 +10,9 @@ class SimpleTypr(BaseState):
         self.current_text = []
         self.target_text = "This is something to write"
 
+    def startup(self, persistent):
+        self.persist:gameProgress = persistent
+        self.target_text = self.persist.getText()
     def update(self):
         if "".join(self.current_text) == self.target_text:
             self.done = True
