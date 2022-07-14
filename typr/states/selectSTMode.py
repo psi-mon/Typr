@@ -22,9 +22,28 @@ class SelectSTMode(BaseState):
         ):  ## todo acc event class and destinguise between input an other events
             self.quit = True
         elif event == "1":
+            self.persist = gameProgress(typeThingProvider(TypeType.LOCAL))
             self.done = True
         elif event == "2":
             self.persist = gameProgress(typeThingProvider(TypeType.EN))
+            self.done = True
+        elif event == "3":
+            self.persist = gameProgress(typeThingProvider(TypeType.DE))
+            self.done = True
+        elif event == "4":
+            self.persist = gameProgress(typeThingProvider(TypeType.PYTHON))
+            self.done = True
+        elif event == "5":
+            self.persist = gameProgress(typeThingProvider(TypeType.TYPESCRIPT))
+            self.done = True
+        elif event == "6":
+            self.persist = gameProgress(typeThingProvider(TypeType.CSHARP))
+            self.done = True
+        elif event == "7":
+            self.persist = gameProgress(typeThingProvider(TypeType.SINGLECHAR))
+            self.done = True
+        elif event == "8":
+            self.persist = gameProgress(typeThingProvider(TypeType.NUMBERS))
             self.done = True
 
     def draw(self, screen):
