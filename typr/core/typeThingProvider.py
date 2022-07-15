@@ -51,17 +51,18 @@ class typeThingProvider():
                 pass
             case _:
                 pass
-        try:
-            # get random title
-            r = requests.get(titleUrl)
-            js = r.json()
-            title = js['items'][0]['title']
-            # get summary 
-            r = requests.get(f"{sumUrl}{title}")
-            js = r.json()
-            sum = js['extract']
-        except Exception as ex: # todo: raise exception here and transiton to error screen
-            title = f"error:{ex}"
+      # get random title
+        r = requests.get(titleUrl)
+        if r.status_code != 200:
+            raise # Custome error to display in error screen
+        js = r.json()
+        title = js['items'][0]['title']
+        # get summary 
+        r = requests.get(f"{sumUrl}{title}")
+        if r.status_code != 200:
+            raise # add Custome error to display in error screen
+        js = r.json()
+        sum = js['extract']
 
         # return the first sentence of the extraction
         return sum.partition('.')[0] + '.'

@@ -14,10 +14,14 @@ class SimpleTypr(BaseState):
 
     def startup(self, persistent):
         self.persist:gameProgress = persistent
-        self.target_text = self.persist.getText() # todo try except block and transition to error screen
-        self.current_text = []
-        self.next_state = "SimpleTypr"
-        self.current_typo = False
+        try:
+          self.target_text = self.persist.getText() # todo try except block and transition to error screen
+          self.current_text = []
+          self.next_state = "SimpleTypr"
+          self.current_typo = False
+        except:
+            self.next_state = "ErrorScreen"
+            self.done = True
 
     def update(self):
         if "".join(self.current_text) == self.target_text:
@@ -42,7 +46,9 @@ class SimpleTypr(BaseState):
 
     def get_event(self, event):
         if ord(event) == 27:
-            self.done = True # todo: handle this as a sip => rounds++
+            if self.persist.isGameOver():
+                self.next_state = "ResultScreen"
+            self.done = True
 
         if event in ("KET_BACKSPACE", '\b', "\x7f"):
             if len(self.current_text) > 0:
@@ -52,7 +58,9 @@ class SimpleTypr(BaseState):
 
     def display_text(self, stdscr, target, current, wpm=0):
             stdscr.addstr(target)
-            stdscr.addstr(1,0,f"WPM: {wpm}")
+            stdscr.addstr(3,0,f"Rounds: {self.persist.currentProg()}")
+            stdscr.addstr(4,0,f"Press ESC to skip")
+
          
             for i, char in enumerate(current):
                 correct_char = target[i]

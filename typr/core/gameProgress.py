@@ -8,19 +8,20 @@ class Stats:
 
 
 class gameProgress():
-    def __init__(self, provider: typeThingProvider, rounds:int = 10) -> None:
+    def __init__(self, provider: typeThingProvider, rounds:int = 5) -> None:
         self.rounds = rounds
+        self.current_round = 0
         self.provider = provider
         self.stats = []
 
 
     def getText(self)->str:
-        self.rounds -=1
+        self.current_round +=1
         self.stats.append(Stats())
         return self.provider.getTypeThing()
 
     def isGameOver(self)->bool:
-        return self.rounds == 0
+        return self.rounds == self.current_round
 
     def addTypo(self, count:int)->None:
         self.stats[-1].typo +=count
@@ -33,4 +34,7 @@ class gameProgress():
         for i in self.stats:
             total += i.typo
         return total
+
+    def currentProg(self)->str:
+        return f"{self.current_round}/{self.rounds}"
 
