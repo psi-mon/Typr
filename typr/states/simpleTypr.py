@@ -14,7 +14,7 @@ class SimpleTypr(BaseState):
 
     def startup(self, persistent):
         self.persist:gameProgress = persistent
-        self.target_text = self.persist.getText()
+        self.target_text = self.persist.getText() # todo try except block and transition to error screen
         self.current_text = []
         self.next_state = "SimpleTypr"
         self.current_typo = False
@@ -38,11 +38,11 @@ class SimpleTypr(BaseState):
             correct_char = target[i]
             if char != correct_char:
                 return True
-        return False
+        return False 
 
     def get_event(self, event):
         if ord(event) == 27:
-            self.done = True
+            self.done = True # todo: handle this as a sip => rounds++
 
         if event in ("KET_BACKSPACE", '\b', "\x7f"):
             if len(self.current_text) > 0:

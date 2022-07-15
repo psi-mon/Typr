@@ -1,3 +1,4 @@
+import requests
 from enum import Enum
 
 class TypeType(Enum):
@@ -36,15 +37,46 @@ class typeThingProvider():
             case _:
                 self.provider = self.__singleCharProvider
         
+    def __getRandomWikiSentence(self, loca: str)->str:
+        titleUrl = ''
+        sumUrl = ''
+        sum = 'bub'
+        match loca:
+            case 'en':
+                titleUrl = 'https://en.wikipedia.org/api/rest_v1/page/random/title'
+                sumUrl = 'https://en.wikipedia.org/api/rest_v1/page/summary/'
+            case 'de':
+                titleUrl = 'https://de.wikipedia.org/api/rest_v1/page/random/title'
+                sumUrl = 'https://de.wikipedia.org/api/rest_v1/page/summary/'
+                pass
+            case _:
+                pass
+        try:
+            # get random title
+            r = requests.get(titleUrl)
+            js = r.json()
+            title = js['items'][0]['title']
+            # get summary 
+            r = requests.get(f"{sumUrl}{title}")
+            js = r.json()
+            sum = js['extract']
+        except Exception as ex: # todo: raise exception here and transiton to error screen
+            title = f"error:{ex}"
+
+        # return the first sentence of the extraction
+        return sum.partition('.')[0] + '.'
+
+
 
     def __localProvider(self)->str:
         return "Your typing some local shit"
 
     def __enProvider(self)->str:
-        return "Your typing in english mate"
+        return self.__getRandomWikiSentence('en')
+        #return "Your typing in english mate"
 
     def __deProvider(self)->str:
-        return "Du tippst in deutsch bruder"
+        return self.__getRandomWikiSentence('de')
 
     def __pythonProvider(self)->str:
         return "def someClass(self)"
