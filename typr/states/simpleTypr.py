@@ -62,13 +62,26 @@ class SimpleTypr(BaseState):
             stdscr.addstr(4,0,f"Press ESC to skip")
 
          
+            line = 0
+            row = 0
+            rowOffset = 0
             for i, char in enumerate(current):
                 correct_char = target[i]
                 color = curses.color_pair(1)
                 if char != correct_char:
                     color = curses.color_pair(2)
 
-                stdscr.addstr(0, i, char, color)
+                row = i - rowOffset
+                # addstr is responsive and adds a new line when there is no room left
+                # so when there is an exception we assume that we overflow and continue
+                # at the next line
+                try:
+                  stdscr.addstr(line, row, char, color)
+                except:
+                    line +=1
+                    rowOffset = i
+                    stdscr.addstr(line, 0, char, color)
+
 
     def draw(self, screen):
         screen.clear()
