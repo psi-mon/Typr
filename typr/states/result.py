@@ -21,8 +21,11 @@ class Result(BaseState):
 
     def draw(self, screen):
         screen.clear()
-        screen.addstr("Result")
-        screen.addstr(1, 3, f"Typos: {self.persist.totalTypos()}")
-        screen.addstr(2, 3, "2. Vim Commands")
-        screen.addstr(3, 0, "Or Press q to quit")
+        screen.addstr("Result:")
+        screen.addstr(1, 3, f"Total Typos: {self.persist.totalTypos()}")
+        screen.addstr(2, 3, f"Number of perfect round {self.persist.perfectRounds()}")
+        screen.addstr(3, 3, f"Average Accuracy {self.persist.averageAcc()}")
+        screen.addstr(4, 3, f"Average Characters per Minute {self.persist.averageCPM()}")
+        screen.addstr(5, 3, f"Average Words per Minute {self.persist.averageWPM()}")
+        screen.addstr(6, 0, "Or Press q to quit")
         screen.refresh()

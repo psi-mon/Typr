@@ -2,7 +2,7 @@ from .base import BaseState
 class ErrorScreen(BaseState):
     def __init__(self):
         super().__init__()
-        self.next_state = "Start"
+        self.next_state = "SelectSTMode"
 
     def update(self):
         pass
@@ -19,4 +19,4 @@ class ErrorScreen(BaseState):
     def draw(self, screen):
         screen.clear()
         screen.addstr("There was an error")
-        screen.addstr(3, 0, "Or Press q to quit")
+        screen.addstr(2, 0, "Press q to go back to Selection Menu")

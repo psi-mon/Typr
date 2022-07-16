@@ -2,6 +2,7 @@ from ..core import typeThingProvider
 from .base import BaseState
 from ..core import gameProgress
 import curses
+import time
 
 class SimpleTypr(BaseState):
     def __init__(self):
@@ -10,6 +11,7 @@ class SimpleTypr(BaseState):
         self.current_text = []
         self.target_text = "This is something to write"
         self.current_typo = False
+        self.started = False
 
 
     def startup(self, persistent):
@@ -19,6 +21,7 @@ class SimpleTypr(BaseState):
           self.current_text = []
           self.next_state = "SimpleTypr"
           self.current_typo = False
+          self.started = False
         except:
             self.next_state = "ErrorScreen"
             self.done = True
@@ -27,6 +30,7 @@ class SimpleTypr(BaseState):
         if "".join(self.current_text) == self.target_text:
             if self.persist.isGameOver():
                 self.next_state = "ResultScreen"
+            self.persist.setDuration(time.time() - self.start_time)
             self.done = True
             # add typo to the stats
         if self.hasTypo(self.current_text, self.target_text) and not self.current_typo:
@@ -46,9 +50,14 @@ class SimpleTypr(BaseState):
 
     def get_event(self, event):
         if ord(event) == 27:
+            self.persist.skipRound()
             if self.persist.isGameOver():
                 self.next_state = "ResultScreen"
             self.done = True
+
+        if not self.started:
+           self.started = True
+           self.start_time = time.time()
 
         if event in ("KET_BACKSPACE", '\b', "\x7f"):
             if len(self.current_text) > 0:

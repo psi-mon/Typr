@@ -1,4 +1,5 @@
 import requests
+import random
 from enum import Enum
 
 class TypeType(Enum):
@@ -16,6 +17,7 @@ class typeThingProvider():
     def __init__(self, ttype:TypeType) -> None:
         self.type = ttype
         self.provider = self.__csharpProvider
+        self.chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ?>.|:;]}{[`'
 
         match ttype:
             case TypeType.LOCAL:
@@ -89,10 +91,10 @@ class typeThingProvider():
         return "const fu = new AwesomeClass<int>()"
 
     def __singleCharProvider(self)->str:
-        return "j"
+        return random.choice(self.chars)
 
     def __numbersProvider(self)->str:
-        return "42"
+        return str(random.randint(0,1000))
 
     def getTypeThing(self)->str:
         return self.provider()
