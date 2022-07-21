@@ -88,7 +88,11 @@ class typeThingProvider():
         return "let fu = new Array<string>();"
 
     def __csharpProvider(self)->str:
-        return "const fu = new AwesomeClass<int>()"
+        r = requests.get('https://raw.githubusercontent.com/freeCodeCamp/freeCodeCamp/cc7f584b962ff1d86e5f07777878e017d0ddeae5/tools/challenge-editor/api/server.ts')
+        code = r.text
+        lines = code.splitlines(True)
+
+        return lines[15]+lines[16]+lines[16]+lines[17]
 
     def __singleCharProvider(self)->str:
         return random.choice(self.chars)

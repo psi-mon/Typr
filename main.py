@@ -18,12 +18,21 @@ states = {
 }
 
 
+import requests
+def testfu():
+    r = requests.get('https://raw.githubusercontent.com/freeCodeCamp/freeCodeCamp/cc7f584b962ff1d86e5f07777878e017d0ddeae5/tools/challenge-editor/api/server.ts')
+    code = r.content
+    lines = code.splitlines()
+    print(r.status_code)
+
+
 def main(stdscr):
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-    curses.curs_set(1)
+    curses.curs_set(0)
     typr = Typr(stdscr, states, "Start")
     typr.run()
 
 
+testfu()
 wrapper(main)
